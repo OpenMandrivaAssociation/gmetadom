@@ -1,6 +1,6 @@
 %define name       gmetadom
-%define version 0.2.4b
-%define packageversion 0.2.4
+%define version 0.2.5
+%define packageversion 0.2.5
 %define release %mkrel 1
 
 %define major 0
