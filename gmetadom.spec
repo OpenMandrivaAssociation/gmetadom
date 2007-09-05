@@ -19,6 +19,7 @@ BuildRoot: %_tmppath/%{name}-%{version}-%{release}-buildroot
 BuildRequires: autoconf2.5 
 BuildRequires: libgdome-devel 
 BuildRequires: ocaml
+BuildRequires: gdome2-devel
 
 %description
 GMetaDOM is a collection of libraries, each library providing a
