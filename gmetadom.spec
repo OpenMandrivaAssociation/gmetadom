@@ -1,6 +1,6 @@
 %define name    gmetadom
 %define version 0.2.5
-%define release %mkrel 2
+%define release %mkrel 1
 
 %define major 0
 %define libname  %mklibname gmetadom_gdome_cpp_smart %major
@@ -14,7 +14,6 @@ License:   LGPL
 URL:  http://gmetadom.sourceforge.net/    
 Source:   %{name}-%{version}.tar.bz2
 Patch: gmetadom-0.2.3-gcc4.1.patch.bz2
-BuildRequires: autoconf2.5 
 BuildRequires: ocaml
 BuildRequires: gdome2-devel
 BuildRequires: libgdome-devel
