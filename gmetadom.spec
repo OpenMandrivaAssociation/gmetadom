@@ -1,7 +1,6 @@
-%define name       gmetadom
+%define name    gmetadom
 %define version 0.2.5
-%define packageversion 0.2.5
-%define release %mkrel 1
+%define release %mkrel 2
 
 %define major 0
 %define libname  %mklibname gmetadom_gdome_cpp_smart %major
@@ -15,11 +14,11 @@ License:   LGPL
 URL:  http://gmetadom.sourceforge.net/    
 Source:   %{name}-%{version}.tar.bz2
 Patch: gmetadom-0.2.3-gcc4.1.patch.bz2
-BuildRoot: %_tmppath/%{name}-%{version}-%{release}-buildroot
 BuildRequires: autoconf2.5 
 BuildRequires: ocaml
 BuildRequires: gdome2-devel
 BuildRequires: libgdome-devel
+BuildRoot: %_tmppath/%{name}-%{version}
 
 %description
 GMetaDOM is a collection of libraries, each library providing a
@@ -48,35 +47,32 @@ GMetaDOM is a collection of libraries, each library providing a
 DOM implementation. Each DOM implementation is generated
 automatically by means of XSLT stylesheets. 
 
-%package ocaml
+%package -n ocaml-%{name}
 Group: Development/Other
 Summary: Ocaml bindings for %name
+Obsoletes:  %{name}-ocaml
 
-%description ocaml
+%description -n ocaml-%{name}
 GMetaDOM is a collection of libraries, each library providing a
 DOM implementation. Each DOM implementation is generated
 automatically by means of XSLT stylesheets. 
 
 This are the Ocaml bindings of GMetaDOM.
 
-
-
 %prep
-rm -rf $RPM_BUILD_ROOT
-
-%setup -qn %{name}-%{packageversion}
+rm -rf %{buildroot}
+%setup -qn %{name}-%{version}
 
 %build
 #gw we have to disable libtoolize, as the ocaml path doesn't build otherwise
 %define __libtoolize true
-%configure2_5x  
+%configure2_5x --with-ocaml-lib-prefix=%{ocaml_sitelib}
 
 %install  
-
 %makeinstall_std  
  
 %clean
-rm -rf $RPM_BUILD_ROOT 
+rm -rf %{buildroot} 
  
 %post -n %libname -p /sbin/ldconfig
 
@@ -95,6 +91,7 @@ rm -rf $RPM_BUILD_ROOT
 %_libdir/*.a
 %_libdir/*.la 
 
-%files ocaml
+%files -n ocaml-%{name}
 %defattr(-, root, root) 
-%_libdir/ocaml/*
+%{ocaml_sitelib}/gdome2
+%{ocaml_sitelib}/stublibs/*
