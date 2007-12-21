@@ -17,6 +17,7 @@ Patch: gmetadom-0.2.3-gcc4.1.patch.bz2
 BuildRequires: ocaml
 BuildRequires: gdome2-devel
 BuildRequires: libgdome-devel
+BuildRoot: %_tmppath/%{name}-%{version}
 
 %description
 GMetaDOM is a collection of libraries, each library providing a
