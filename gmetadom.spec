@@ -1,9 +1,11 @@
 %define name    gmetadom
 %define version 0.2.6
-%define release %mkrel 5
+%define release %mkrel 6
 
 %define major 0
 %define libname  %mklibname gmetadom_gdome_cpp_smart %major
+
+%define _disable_ld_as_needed 1
 
 Summary: C++ Wrapper for GDOME
 Name: %name
@@ -13,7 +15,8 @@ Group:  System/Libraries
 License:   LGPL
 URL:  http://gmetadom.sourceforge.net/
 Source:   %{name}-%{version}.tar.bz2
-Patch: gmetadom-0.2.3-gcc4.1.patch.bz2
+Patch0: gmetadom-0.2.3-gcc4.1.patch.bz2
+Patch1: gmetadom-0.2.6-fix-missing-header.patch
 BuildRequires: ocaml
 BuildRequires: ocaml-findlib
 BuildRequires: gdome2-devel
@@ -60,8 +63,8 @@ automatically by means of XSLT stylesheets.
 This are the Ocaml bindings of GMetaDOM.
 
 %prep
-rm -rf %{buildroot}
 %setup -qn %{name}-%{version}
+%patch1 -p 1
 
 %build
 #gw we have to disable libtoolize, as the ocaml path doesn't build otherwise
