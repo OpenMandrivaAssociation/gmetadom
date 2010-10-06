@@ -1,6 +1,6 @@
 %define name    gmetadom
 %define version 0.2.6
-%define release %mkrel 8
+%define release %mkrel 9
 
 %define major 0
 %define libname  %mklibname gmetadom_gdome_cpp_smart %major
