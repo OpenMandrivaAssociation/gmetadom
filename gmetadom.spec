@@ -1,58 +1,53 @@
-%define name    gmetadom
-%define version 0.2.6
-%define release %mkrel 9
-
 %define major 0
-%define libname  %mklibname gmetadom_gdome_cpp_smart %major
+%define libname  %mklibname gmetadom_gdome_cpp_smart %{major}
+%define develname  %mklibname gmetadom_gdome_cpp_smart -d
 
 %define _disable_ld_as_needed 1
 
-Summary: C++ Wrapper for GDOME
-Name: %name
-Version: %version
-Release: %release
-Group:  System/Libraries
-License:   LGPL
-URL:  http://gmetadom.sourceforge.net/
-Source:   %{name}-%{version}.tar.bz2
-Patch0: gmetadom-0.2.3-gcc4.1.patch.bz2
-Patch1: gmetadom-0.2.6-fix-missing-header.patch
+Summary:	C++ Wrapper for GDOME
+Name:		gmetadom
+Version:	0.2.6
+Release:	10
+Group:		System/Libraries
+License:	LGPL
+URL:		http://gmetadom.sourceforge.net/
+Source0:   %{name}-%{version}.tar.bz2
+Patch1:	gmetadom-0.2.6-fix-missing-header.patch
+
 BuildRequires: ocaml
 BuildRequires: ocaml-findlib
 BuildRequires: gdome2-devel
 BuildRequires: libgdome-devel
-BuildRoot: %_tmppath/%{name}-%{version}
 
 %description
 GMetaDOM is a collection of libraries, each library providing a
 DOM implementation. Each DOM implementation is generated
 automatically by means of XSLT stylesheets.
 
-%package -n %libname
-Summary: CPP Libraries for gdome2
-Group: System/Libraries
+%package -n %{libname}
+Summary:	CPP Libraries for gdome2
+Group:		System/Libraries
 
-%description -n %libname
+%description -n %{libname}
  GMetaDOM is a collection of libraries, each library providing a
 DOM implementation. Each DOM implementation is generated
 automatically by means of XSLT stylesheets.
 
-%package -n %libname-devel
-Summary: Libraries and include files for gdome2
-Group:    Development/C++
-Requires: %libname = %{version}
-Requires: glib2-devel >= 2.4.4 libgdome-devel libxml2-devel >= 2.6.11
-Provides: %name-devel  = %version-%release
-Provides: libgmetadom_gdome_cpp_smart-devel = %version-%release
+%package -n %{develname}
+Summary:	Libraries and include files for gdome2
+Group:		Development/C++
+Requires:	%{libname} = %{version}
+Provides:	%{name}-devel  = %{version}-%{release}
+Obsoletes:	%{_lib}gmetadom_gdome_cpp_smart0-devel
 
-%description -n %libname-devel
+%description -n %{develname}
 GMetaDOM is a collection of libraries, each library providing a
 DOM implementation. Each DOM implementation is generated
 automatically by means of XSLT stylesheets.
 
 %package -n ocaml-%{name}
-Group: Development/Other
-Summary: Ocaml bindings for %name
+Group:		Development/Other
+Summary:	Ocaml bindings for %{name}
 Obsoletes:  %{name}-ocaml
 
 %description -n ocaml-%{name}
@@ -63,42 +58,31 @@ automatically by means of XSLT stylesheets.
 This are the Ocaml bindings of GMetaDOM.
 
 %prep
-%setup -qn %{name}-%{version}
-%patch1 -p 1
+%setup -q
+%apply_patches
 
 %build
 #gw we have to disable libtoolize, as the ocaml path doesn't build otherwise
 %define __libtoolize true
-%configure2_5x --with-ocaml-lib-prefix=%{_libdir}/ocaml
+%configure2_5x \
+	--with-ocaml-lib-prefix=%{_libdir}/ocaml
 
 %install
 %makeinstall_std
 
-%clean
-rm -rf %{buildroot}
+# static lib needed for internal test
+rm -f %{buildroot}%{_libdir}/*.a
 
-%if %mdkversion < 200900
-%post -n %libname -p /sbin/ldconfig
-%endif
+%files -n %{libname}
+%{_libdir}/libgmetadom_gdome_cpp_smart.so.%{major}*
 
-%if %mdkversion < 200900
-%postun -n %libname -p /sbin/ldconfig
-%endif
-
-%files -n %libname
-%defattr(-, root, root)
-%_libdir/lib*.so.*
-
-%files -n %libname-devel
-%defattr(-,root,root)
+%files -n %{develname}
 %doc AUTHORS COPYING ChangeLog HISTORY INSTALL LICENSE
-%_includedir/*
-%_libdir/pkgconfig/*.pc
-%_libdir/lib*.so
-%_libdir/*.a
-%_libdir/*.la
+%{_includedir}/*
+%{_libdir}/pkgconfig/*.pc
+%{_libdir}/lib*.so
 
 %files -n ocaml-%{name}
-%defattr(-, root, root)
 %{_libdir}/ocaml/gdome2
 %{_libdir}/ocaml/stublibs/*
+
