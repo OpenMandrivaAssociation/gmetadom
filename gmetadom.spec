@@ -7,7 +7,7 @@
 Summary:	C++ Wrapper for GDOME
 Name:		gmetadom
 Version:	0.2.6
-Release:	11
+Release:	12
 License:	LGPLv2.1+
 Group:		System/Libraries
 Url:		http://gmetadom.sourceforge.net/
