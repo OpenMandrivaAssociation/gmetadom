@@ -76,7 +76,7 @@ This are the Ocaml bindings of GMetaDOM.
 
 %prep
 %setup -q
-%apply_patches
+%autopatch -p1
 
 %build
 #gw we have to disable libtoolize, as the ocaml path doesn't build otherwise
