@@ -10,7 +10,7 @@ Version:	0.2.6
 Release:	12
 License:	LGPLv2.1+
 Group:		System/Libraries
-Url:		http://gmetadom.sourceforge.net/
+Url:		https://gmetadom.sourceforge.net/
 Source0:	%{name}-%{version}.tar.bz2
 Patch1:		gmetadom-0.2.6-fix-missing-header.patch
 BuildRequires:	ocaml
